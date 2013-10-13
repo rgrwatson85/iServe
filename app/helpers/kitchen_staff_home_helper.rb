@@ -1,0 +1,2 @@
+module KitchenStaffHomeHelper
+end

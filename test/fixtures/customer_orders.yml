@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  table_id: 1
+  order_total: 9.99
+  is_order_ready: false
+
+two:
+  table_id: 1
+  order_total: 9.99
+  is_order_ready: false

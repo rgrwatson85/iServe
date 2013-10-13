@@ -1,0 +1,2 @@
+module CashierHomeHelper
+end

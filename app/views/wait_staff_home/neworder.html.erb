@@ -1,0 +1,21 @@
+<!--SIDEBAR-->
+<% content_for :sidebar do %>
+    <%= render :template => 'layouts/menu_list' %>
+<% end %>
+
+<div id='new_order'>
+  <h1><%= @table.table_name %> - New Order</h1>
+  <table class="table table-striped">
+    <thead>
+        <tr>
+          <th>Item Name</th>
+          <th>Note</th>
+        </tr>
+    </thead>
+    <tbody id="order_items">
+
+    </tbody>
+  </table>
+  <button id="submit_order" class = 'btn btn-info btn-small'>Submit Order</button>
+  <%= link_to 'Cancel', waitstaff_path, :method => 'post', :class => 'btn btn-danger btn-small' %>
+</div>

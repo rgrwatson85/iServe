@@ -1,0 +1,60 @@
+<%= javascript_include_tag "kitchen_staff_home", "data-turbolinks-track" => true %>
+<div class="page-header">
+  <h1>Open Orders</h1>
+</div>
+<table id="open_orders" class="table table-striped">
+  <thead>
+  <tr>
+    <th>Table</th>
+    <th>Waiter(s)</th>
+    <th>Order Items</th>
+    <th>Minutes Open</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @open_orders.each do |order| %>
+      <tr class="order_row" id="<%= order.id %>">
+        <td><%= Table.find(order.table_id).table_name %></td>
+
+        <td>
+          <% EmployeeTable.where(:table_id => order.table_id).each do |emp_tab|
+            Employee.where(:id => emp_tab.employee_id).each do |employee| %>
+                  <%= employee.first_name %>
+                  <br/>
+              <% end %>
+          <% end %>
+        </td>
+
+        <td>
+          <table>
+            <% order.customer_order_items.each  do |item| %>
+                <tr id="<%= item.id %>">
+                  <td>
+                    <%= MenuItem.find(item.menu_item_id).item_name %>
+                    <% if item.is_menu_item_ready == false %>
+                        <button class = 'ajax btn btn-mini btn-danger pull-left'>READY</button>
+                    <% else %>
+                        <button class = 'ajax btn btn-mini btn-success pull-left'>READY</button>
+                    <% end %>
+                  </td>
+                </tr>
+            <% end %>
+          </table>
+        </td>
+
+        <td><%= ((Time.now() - order.created_at) / 60.0).floor() %></td>
+
+
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<!--SIDEBAR-->
+<% content_for :sidebar do %>
+    <div class="well sidebar-nav">
+      <h3>Order Notes:</h3>
+      <div id="order_note">None</div>
+    </div>
+<% end %>
+

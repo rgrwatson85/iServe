@@ -1,0 +1,13 @@
+<%= javascript_include_tag "management_home", "data-turbolinks-track" => true %>
+<%= content_for :sidebar do %>
+    <%= render :template => 'layouts/menu_list' %>
+    <%- # render :template => 'layouts/table_list' %>
+<% end %>
+
+<div class="row">
+  <div class="span9">
+    <div id="content_area" class="well">
+
+    </div>
+  </div>
+</div>

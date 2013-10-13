@@ -1,0 +1,63 @@
+<% if @orders %>
+    <div id="orders">
+      <div class="page-header">
+        <h1><%= @table.table_name %> Orders</h1>
+        <h4>Amount Due: <%= number_to_currency @total %></h4>
+        <h4><%= @percent_done %> Complete</h4>
+        <button id="<%= @table.id %>" class="btn btn-small btn-success open_new_order">New Order</button>
+      </div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>Customer</th>
+          <th>Status</th>
+          <th>Order</th>
+          <th>Notes</th>
+          <th>Order Total</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <%
+           i = 0
+           @orders.each do |order|
+             i += 1
+             order_price = 0.00
+        %>
+            <tr id="<%= order.id %>">
+              <td><%= i %></td>
+              <td colspan="3">
+                <table style="width: 100%">
+                  <%
+                     order.customer_order_items.each do |item|
+                       item_name = MenuItem.find(item.menu_item_id).item_name
+                       item_note = item.waitstaff_note
+                       item_price = MenuItem.find(item.menu_item_id).item_price
+                       order_price += item_price
+                       status = item.is_menu_item_ready ?
+                               '<i class="icon-large icon-check"></i>'.html_safe
+                       :
+                               '<i class="icon-spinner icon-spin icon-large"></i>'.html_safe
+                  %>
+
+                      <tr>
+                        <td style="width: 33%"><%= status %></td>
+                        <td style="width: 33%"><%= item_name %></td>
+                        <td style="width: 33%"><%= item_note %></td>
+                      </tr>
+                  <% end %>
+                </table>
+              </td>
+              <td>
+                <%= number_to_currency order_price %>
+              </td>
+              <td>
+                <button class="btn btn-info btn-small edit_order">Edit</button>
+                <button class="btn btn-danger btn-small delete_order">Remove</button>
+              </td>
+            </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+<% end %>

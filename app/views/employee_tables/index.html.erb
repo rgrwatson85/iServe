@@ -1,0 +1,40 @@
+<%- model_class = EmployeeTable -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:employee_id) %></th>
+      <th><%= model_class.human_attribute_name(:table_id) %></th>
+      <th><%= model_class.human_attribute_name(:assign_date) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @employee_tables.each do |employee_table| %>
+      <tr>
+        <td><%= link_to employee_table.id, employee_table_path(employee_table) %></td>
+        <td><%= employee_table.employee_id %></td>
+        <td><%= employee_table.table_id %></td>
+        <td><%= employee_table.assign_date %></td>
+        <td><%=l employee_table.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_employee_table_path(employee_table), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      employee_table_path(employee_table),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_employee_table_path,
+            :class => 'btn btn-primary' %>

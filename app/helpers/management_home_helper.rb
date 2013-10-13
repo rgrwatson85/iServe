@@ -1,0 +1,2 @@
+module ManagementHomeHelper
+end

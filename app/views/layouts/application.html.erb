@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>iServe</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+
+  <%= stylesheet_link_tag    "jGrowl/jquery.jgrowl.css", media: "all" %>
+  <%= javascript_include_tag "jGrowl/jquery.jgrowl.js" %>
+
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+      .nav-offset{
+          margin-top: 60px;
+      }
+      .alert{
+          position: absolute;
+          top: -13px; left: 0px; right: 0px;
+      }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="row">
+    <div class="span12">
+      <%= render :template => '/layouts/navbar' %>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div id="side_bar" class="span3 sidebar-width nav-offset ">
+      <%= render :template => '/layouts/sidebar' %>
+    </div>
+
+    <div class="span9 nav-offset content">
+      <% flash.each do |key, value| %>
+          <div class="alert alert-<%= key %>">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            <%= value %>
+          </div>
+      <% end %>
+      <%= yield %>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

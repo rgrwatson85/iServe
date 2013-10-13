@@ -1,0 +1,27 @@
+.well{
+    min-width: 200px;
+    margin-top: 80px;
+}
+
+.well .sidebar-nav{
+    margin-top: 80px;
+}
+
+.well span i{
+    float: right;
+    margin-right: 3px;
+}
+.accordion-inner {
+    padding-bottom: 50px;
+}
+
+.accordion-inner .nav li .main-button{
+    width: 80%;
+    min-width: 100px;
+}
+
+.accordion-inner .nav li .dd-button{
+    width: 20%;
+    min-width: 25px;
+    max-width: 25px;
+}

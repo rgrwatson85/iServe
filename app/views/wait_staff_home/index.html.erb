@@ -1,0 +1,20 @@
+<%= stylesheet_link_tag "wait_staff_home", media: "all" %>
+<%= javascript_include_tag "wait_staff_home", "data-turbolinks-track" => true %>
+<div class="content_area">
+
+  <div class="row">
+    <div class="span9">
+      <div id="table_info" class="well">
+        <%= render :template => '/wait_staff_home/vieworders' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<!--SIDEBAR-->
+<% content_for :sidebar do %>
+    <%= render :template => 'layouts/table_list' %>
+<% end %>
