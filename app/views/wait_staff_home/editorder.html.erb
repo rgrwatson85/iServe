@@ -1,30 +1,6 @@
-<div id="menu">
-  <div class="well">
-    <h3 style="text-align: center;">Menu</h3>
-    <div class="accordion" id="accordion2">
-
-      <% Menu.all.each do |menu| %>
-          <div class="accordion-group">
-            <div class="accordion-heading">
-              <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#<%= menu.menu_name %>">
-                <%= menu.menu_name %>
-              </a>
-            </div>
-            <div id="<%= menu.menu_name %>" class="accordion-body collapse">
-              <div class="accordion-inner">
-                <% menu.menu_items.each do |item| %>
-                    <div class="btn btn-info btn-block item">
-                      <%= item.item_name %><i class="icon-plus-sign pull-right" style="margin-right: 3px;"></i>
-                    </div>
-                <% end %>
-              </div>
-            </div>
-          </div>
-      <% end %>
-
-    </div>
-  </div>
-</div>
+<% content_for :sidebar do %>
+    <%= render :template => 'layouts/menu_list' %>
+<% end %>
 
 
 <div id='update_order'>
@@ -46,7 +22,7 @@
         <tr id="<%= @order.id %>">
         <td id="<%= id %>"><%= item_name %></td>
         <td><input type='text' class='note' style='width: 96%;' value='<%= note %>' /></td>
-        <td><button class='btn btn-danger btn-small item_remove'>Remove</button></td>
+        <td><button class='btn btn-danger btn-small item_remove'>Remove Item</button></td>
         </tr>
         <% end %>
     </tbody>

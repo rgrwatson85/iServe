@@ -34,12 +34,14 @@ class CashierHomeController < ApplicationController
         order.is_order_paid_for = true
         order.save!
       end
+      session[:table_id] = @table.id
     else
       #mark specific order as having been paid
       order = CustomerOrder.find(params[:order_id])
       order.is_order_ready    = true
       order.is_order_paid_for = true
       order.save!
+      session[:table_id] = order.table_id
     end
 
     render :text => 'Payment processed.'

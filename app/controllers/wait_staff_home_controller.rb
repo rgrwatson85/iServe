@@ -88,20 +88,27 @@ class WaitStaffHomeController < ApplicationController
 
         order.each do |key, value|
           item = value['menu_item']
-          order_item_id = value['order_item_id']
+          order_item_id = value['order_item_id'] || CustomerOrderItem.create().id #catches new items added to order
           note = value['menu_item_note']
+          marked_for_deletion = value['delete'] || false
 
           order_item = CustomerOrderItem.find(order_item_id)
-          order_item.customer_order_id = @order.id
 
-          #if the item name or the note for the item has changed, mark the item as not complete
-          if order_item.menu_item_id != MenuItem.find_by_item_name(item).id || order_item.waitstaff_note != note
-            order_item.is_menu_item_ready = false
+          #if not marked for deletion
+          if !marked_for_deletion
+            #if the item name or the note for the item has changed, mark the item as not complete
+            if order_item.menu_item_id != MenuItem.find_by_item_name(item).id || order_item.waitstaff_note != note
+              order_item.is_menu_item_ready = false
+            end
+
+            order_item.menu_item_id = MenuItem.find_by_item_name(item).id
+            order_item.waitstaff_note = note
+            order_item.save
+          else
+            order_item.destroy!
           end
 
-          order_item.menu_item_id = MenuItem.find_by_item_name(item).id
-          order_item.waitstaff_note = note
-          order_item.save
+
 
         end
 

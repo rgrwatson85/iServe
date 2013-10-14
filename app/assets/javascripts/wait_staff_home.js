@@ -1,10 +1,14 @@
+//GLOBAL VARIABLES ARE BAAAAAAAD BUT I CANT FIGURE OUT A BETTER WAY RIGHT NOW!!
+var table_list;
+var timerID = 0;
+
 function rebind() {
     //bind table buttons to ajax request
     $('.table_button').on('click', function () {
         var data = {"table_id": this.id}
         viewOrders(data);
     });
-
+    table_list = $('#sb').html()
     viewOrders();
 }
 
@@ -14,20 +18,23 @@ function home() {
         method: 'get',
         complete: function (response) {
             var table_info = $($.parseHTML(response)).find('#table_info').html()
-            var side_bar = $($.parseHTML(response)).find('#sb').html()
             $('#table_info').html(table_info)
-            $('#side_bar').html(side_bar)
+            $('#side_bar').html(table_list)
             rebind();
         }
     });
 }
+
 function statusRefresh() {
+
+    //unbind all the click handlers so they do not fire multiple times
+    $('.edit_order').unbind('click')
+    $('.delete_order').unbind('click')
+    $('.open_new_order').unbind('click')
+
     var data = {"table_id": $('.open_new_order').attr('id')}
     viewOrders(data);
 }
-
-var timerID = 0;
-
 
 function viewOrders(data) {
     $.ajax({
@@ -70,6 +77,24 @@ function viewOrders(data) {
             //EDIT EXISTING ORDER
             $('.edit_order').on('click', function () {
 
+                function toggleDelete(row, btn, txt){
+                    if (!row.hasClass('delete')){
+                        btn.removeClass('btn-danger').addClass('btn-success')
+                        btn.html('Restore Item')
+                        txt.attr('disabled', 'disabled')
+                        row.children().not(btn.closest('td')).fadeTo(500,.25)
+                        row.addClass('delete')
+
+                    }else{
+                        btn.removeClass('btn-success').addClass('btn-danger')
+                        btn.html('Remove Item')
+                        txt.removeAttr('disabled')
+                        row.children().fadeTo(500, 1)
+                        row.removeClass('delete')
+                    }
+
+                }
+
                 clearInterval(timerID)
 
                 var data2 = {'id': ($(this).closest('tr')).attr('id')}
@@ -80,15 +105,38 @@ function viewOrders(data) {
                     dataType: 'html',
                     success: function (response) {
                         var update_form = $($.parseHTML(response)).find('#update_order').html()
+                        var side_bar = $($.parseHTML(response)).find('#menu').html()
                         $('#table_info').html(update_form)
+                        $('#sb').html(side_bar)
                     },
                     complete: function () {
                         //fade out the row and then remove from the table when remove clicked
                         $('.item_remove').on('click', function () {
-                            $(this).closest('tr').fadeOut({
-                                complete: function () {
-                                    $(this).remove();
-                                }
+                            var row = $(this).closest('tr')
+                            var btn = $(this)
+                            var txt = row.find('.note')
+                            toggleDelete(row, btn, txt)
+                        });
+                        //add items to the order form (|item name||notes|)
+                        //note that the order item will have to be submitted through an ajax call so that it has a valid id
+                        //add the item to the table on success
+                        $('.item').on('click', function () {
+                            //match all characters before < to remove to i-tags from the item names
+                            var regex = /^[^<]*/;
+                            var item_name = $.trim($(this).html().match(regex)[0])
+                            var item = "<tr>" +
+                                "<td>" + item_name + "</td>" +
+                                "<td><input type='text' class='note' style='width: 96%;' value='' /></td>" +
+                                "<td><button class='btn btn-danger btn-small item_remove'>Remove</button> </td>" +
+                                "</tr>";
+
+                            $('#order_items').append(item);
+
+                            //fade out the row and then remove from the table when remove clicked
+                            $('.item_remove').on('click', function () {
+                                var row = $(this).closest('tr')
+                                var btn = $(this)
+                                toggleDelete(row, btn)
                             });
                         });
 
@@ -100,7 +148,12 @@ function viewOrders(data) {
                                 var menu_item = $(this.cells[0]).html()
                                 var order_item_id = $(this.cells[0]).attr('id')
                                 var menu_item_note = $(this).find('.note').val()
-                                data.push({ 'order_item_id': order_item_id, 'menu_item': menu_item, 'menu_item_note': menu_item_note })
+                                if($(this).hasClass('delete')){
+                                    data.push({ 'order_item_id': order_item_id, 'menu_item': menu_item, 'menu_item_note': menu_item_note, 'delete': true })
+                                }else{
+                                    data.push({ 'order_item_id': order_item_id, 'menu_item': menu_item, 'menu_item_note': menu_item_note })
+                                }
+
                             });
                             data = {'order': data, 'update': true, 'id': data2.id}
                             $.ajax({

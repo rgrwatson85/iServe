@@ -7,6 +7,7 @@ function refresh(item_id) {
             $('#content_area').html(edit_form)
         },
         complete: function () {
+            $('.item_cancel').hide()
             $('#item_submit').on('click', function (e) {
                 e.preventDefault();
                 var data = $(this).closest('form').serialize();
@@ -31,8 +32,10 @@ function refresh(item_id) {
 $(document).ready(function () {
 
     $('.item').on('click', function () {
-        item_id = $(this).closest('div').attr('id')
+        var item_id = $(this).closest('div').attr('id')
         refresh(item_id);
     });
+    $('.accordion-toggle:first').click()
+    $('.item:first').click();
 
 });
