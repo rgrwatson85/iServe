@@ -1,0 +1,2 @@
+module UserTablesHelper
+end
