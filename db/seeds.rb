@@ -6,23 +6,23 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-EmployeeType.create([
+UserType.create([
     {:type_name => 'Manager'},
     {:type_name => 'Waiter'},
     {:type_name => 'Cashier'},
     {:type_name => 'Cook'},
 ])
 
-Employee.create([
-    {:first_name => 'Morgan', :last_name => 'Watson', :employee_type_id=> 1},
-    {:first_name => 'James', :last_name => 'Williams', :employee_type_id=> 2},
-    {:first_name => 'Betty', :last_name => 'Draper', :employee_type_id=> 2},
-    {:first_name => 'Dorothy', :last_name => 'Whitney', :employee_type_id=> 2},
-    {:first_name => 'John', :last_name => 'Higgins', :employee_type_id=> 3},
-    {:first_name => 'Adam', :last_name => 'Holloway', :employee_type_id=> 3},
-    {:first_name => 'Miguel', :last_name => 'Buckner', :employee_type_id=> 4},
-    {:first_name => 'Mary', :last_name => 'Fischer', :employee_type_id=> 4},
-    {:first_name => 'John', :last_name => 'Gilbert', :employee_type_id=> 4},
+User.create([
+    {:first_name => 'Morgan', :last_name => 'Watson', :user_type_id=> 1, :username => 'mrgnwatson', :password => 'password', :email => 'email@emailaddress.com'},
+    {:first_name => 'James', :last_name => 'Williams', :user_type_id=> 2, :username => 'jwilliams', :password => 'password', :email => 'email2@emailaddress.com'},
+    {:first_name => 'Betty', :last_name => 'Draper', :user_type_id=> 2, :username => 'bdraper', :password => 'password', :email => 'email3@emailaddress.com'},
+    {:first_name => 'Dorothy', :last_name => 'Whitney', :user_type_id=> 2, :username => 'dwhitney', :password => 'password', :email => 'email4@emailaddress.com'},
+    {:first_name => 'John', :last_name => 'Higgins', :user_type_id=> 3, :username => 'jhiggins', :password => 'password', :email => 'email5@emailaddress.com'},
+    {:first_name => 'Adam', :last_name => 'Holloway', :user_type_id=> 3, :username => 'aholloway', :password => 'password', :email => 'email6@emailaddress.com'},
+    {:first_name => 'Miguel', :last_name => 'Buckner', :user_type_id=> 4, :username => 'mbuckner', :password => 'password', :email => 'email7@emailaddress.com'},
+    {:first_name => 'Mary', :last_name => 'Fischer', :user_type_id=> 4, :username => 'mfischer', :password => 'password', :email => 'email8@emailaddress.com'},
+    {:first_name => 'John', :last_name => 'Gilbert', :user_type_id=> 4, :username => 'jgilbert', :password => 'password', :email => 'email9@emailaddress.com'},
 ])
 
 tables = Table.create([
@@ -38,23 +38,23 @@ tables = Table.create([
     {:table_name => 'Table J'},
 ])
 
-EmployeeTable.create([
-    {:employee_id => 2, :table_id => 1, :assign_date => Date.today},
-    {:employee_id => 2, :table_id => 2, :assign_date => Date.today},
-    {:employee_id => 2, :table_id => 3, :assign_date => Date.today},
+UserTable.create([
+    {:user_id => 2, :table_id => 1, :assign_date => Date.today},
+    {:user_id => 2, :table_id => 2, :assign_date => Date.today},
+    {:user_id => 2, :table_id => 3, :assign_date => Date.today},
 
-    {:employee_id => 3, :table_id => 4, :assign_date => Date.today},
-    {:employee_id => 3, :table_id => 5, :assign_date => Date.today},
-    {:employee_id => 3, :table_id => 6, :assign_date => Date.today},
+    {:user_id => 3, :table_id => 4, :assign_date => Date.today},
+    {:user_id => 3, :table_id => 5, :assign_date => Date.today},
+    {:user_id => 3, :table_id => 6, :assign_date => Date.today},
 
-    {:employee_id => 4, :table_id => 7, :assign_date => Date.today},
-    {:employee_id => 4, :table_id => 8, :assign_date => Date.today},
-    {:employee_id => 4, :table_id => 9, :assign_date => Date.today},
+    {:user_id => 4, :table_id => 7, :assign_date => Date.today},
+    {:user_id => 4, :table_id => 8, :assign_date => Date.today},
+    {:user_id => 4, :table_id => 9, :assign_date => Date.today},
 
     #assign multiple waiters to one table
-    {:employee_id => 2, :table_id => 10, :assign_date => Date.today},
-    {:employee_id => 3, :table_id => 10, :assign_date => Date.today},
-    {:employee_id => 4, :table_id => 10, :assign_date => Date.today},
+    {:user_id => 2, :table_id => 10, :assign_date => Date.today},
+    {:user_id => 3, :table_id => 10, :assign_date => Date.today},
+    {:user_id => 4, :table_id => 10, :assign_date => Date.today},
 ])
 
 Menu.create([
