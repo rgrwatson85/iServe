@@ -97,10 +97,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="navbar.html.erb" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="navbar.html.erb" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/layouts/navbar.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="81" selection-start="1270" selection-end="1270" vertical-scroll-proportion="-15.0">
+            <state line="23" column="91" selection-start="1184" selection-end="1184" vertical-scroll-proportion="0.5837563">
               <folding />
             </state>
           </provider>
@@ -115,10 +115,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application_controller.rb" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="application_controller.rb" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="5" column="35" selection-start="236" selection-end="236" vertical-scroll-proportion="0.11942675">
+            <state line="5" column="35" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -153,7 +153,6 @@
         <option value="$PROJECT_DIR$/app/models/user_type.rb" />
         <option value="$PROJECT_DIR$/config/environments/development.rb" />
         <option value="$PROJECT_DIR$/app/controllers/users_controller.rb" />
-        <option value="$PROJECT_DIR$/app/views/layouts/navbar.html.erb" />
         <option value="$PROJECT_DIR$/db/schema.rb" />
         <option value="$PROJECT_DIR$/db/migrate/20130927220428_create_users.rb" />
         <option value="$PROJECT_DIR$/app/views/devise/registrations/new.html.erb" />
@@ -163,6 +162,7 @@
         <option value="$PROJECT_DIR$/config/initializers/devise.rb" />
         <option value="$PROJECT_DIR$/app/views/layouts/application.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/layouts/navbar.html.erb" />
       </list>
     </option>
   </component>
@@ -811,13 +811,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/navbar.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="81" selection-start="1270" selection-end="1270" vertical-scroll-proportion="-15.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/home/index.html.erb">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
@@ -834,7 +827,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="35" selection-start="236" selection-end="236" vertical-scroll-proportion="0.11942675">
+        <state line="5" column="35" selection-start="236" selection-end="236" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/navbar.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="91" selection-start="1184" selection-end="1184" vertical-scroll-proportion="0.5837563">
           <folding />
         </state>
       </provider>
