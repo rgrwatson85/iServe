@@ -10,7 +10,7 @@
  *
  *= require_self
  *= require bootstrap_and_overrides
- *= require flatly
+ *= require journal
  *= require sidebar
  *= require jquery.ui.all
  */

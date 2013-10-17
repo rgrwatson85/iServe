@@ -14,3 +14,7 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 //= require twitter/bootstrap
+
+$(document).ready(function(){
+    $('.alert').css('opacity',.75).css('font-size', '24px').delay(1500).fadeOut()
+});

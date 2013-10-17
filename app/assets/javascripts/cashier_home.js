@@ -4,10 +4,12 @@ function viewOrders(data) {
         data: data,
         dataType: 'js',
         method: 'post',
-        complete: function (xhr){
+        complete: function (xhr) {
             var table = $($.parseHTML(xhr.responseText)).find('#orders').html()
+            if (table == null)
+                table = xhr.responseText
             //update table if a change is detected
-            if(table != $('#table_info').html()){
+            if (table != $('#table_info').html()) {
                 $('#table_info').html(table)
                 rebind();
             }
@@ -32,7 +34,7 @@ function rebind() {
         viewOrders(data)
     });
 
-    $('.process').on('click', function(){
+    $('.process').on('click', function () {
         if ($(this).hasClass('process_all_payment'))
             var data = {'table_id': this.id}
         else
@@ -42,7 +44,7 @@ function rebind() {
             url: 'cashier/processpayment',
             data: data,
             method: 'post',
-            complete: function(xhr){
+            complete: function (xhr) {
                 $.jGrowl(xhr.responseText)
                 viewOrders()
             }
@@ -50,6 +52,6 @@ function rebind() {
     });
 }
 
-$(document).ready(function(){
+$(document).ready(function () {
     viewOrders()
 });

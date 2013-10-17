@@ -1,5 +1,8 @@
 class WaitStaffHomeController < ApplicationController
 
+  before_filter :is_authorized_to_view_table, :only => [:vieworders]
+  before_filter :is_authorized, :except => [:vieworders]
+
   def index
 
   end
@@ -71,7 +74,7 @@ class WaitStaffHomeController < ApplicationController
 
   def deleteorder
     @order = CustomerOrder.find(params[:id])
-    @order.destroy
+    @order.destroy!
     render :json => {'success' => true}
   end
 
@@ -79,18 +82,25 @@ class WaitStaffHomeController < ApplicationController
 
     @order = CustomerOrder.find(params[:id])
 
-    if (params[:update])
-      #check that there are items in the order / error if not - tell user to delete the order entirely from the view order view
+    if (params[:update] && params[:update] == 'true')
+      #check that there are items in the order /
+      #error if not - tell user to delete the order entirely from the view order view
       order = params[:order]
       if !order
         render :text => 'You cant have an order with no items. Try deleting the entire order...'
       else
-
+        @order.is_order_ready = true
         order.each do |key, value|
           item = value['menu_item']
-          order_item_id = value['order_item_id'] || CustomerOrderItem.create().id #catches new items added to order
-          note = value['menu_item_note']
-          marked_for_deletion = value['delete'] || false
+          if @order.is_order_ready
+            @order.is_order_ready = value['order_item_id'] ? true : false
+            @order.save!
+          end
+
+          #catches new items added to order
+          order_item_id         = value['order_item_id'] || CustomerOrderItem.create(:customer_order_id => @order.id).id
+          note                  = value['menu_item_note']
+          marked_for_deletion   = value['delete'] == 'true' ? true : false
 
           order_item = CustomerOrderItem.find(order_item_id)
 
@@ -99,19 +109,18 @@ class WaitStaffHomeController < ApplicationController
             #if the item name or the note for the item has changed, mark the item as not complete
             if order_item.menu_item_id != MenuItem.find_by_item_name(item).id || order_item.waitstaff_note != note
               order_item.is_menu_item_ready = false
+              @order.is_order_ready = false
+              @order.save!
             end
 
             order_item.menu_item_id = MenuItem.find_by_item_name(item).id
             order_item.waitstaff_note = note
-            order_item.save
+            order_item.save!
           else
             order_item.destroy!
           end
 
-
-
         end
-
         render :text => 'Order successfully updated.'
       end
     end
@@ -119,6 +128,23 @@ class WaitStaffHomeController < ApplicationController
     #set to return user to the correct table
     session[:table_id] = @order.table_id
 
+  end
+
+  private
+
+  def is_authorized
+    utid = current_user.user_type_id
+    if utid > 2
+      flash[:error] = 'Not authorized to view this resource.'
+      redirect_to :back
+    end
+  end
+
+  def is_authorized_to_view_table
+    utid = current_user.user_type_id
+    if utid > 3
+      render :text => 'Not authorized to view this resource.'
+    end
   end
 
 end
