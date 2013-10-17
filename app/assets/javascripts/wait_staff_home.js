@@ -1,5 +1,5 @@
 //GLOBAL VARIABLES ARE BAAAAAAAD BUT I CANT FIGURE OUT A BETTER WAY RIGHT NOW!!
-var table_list;
+var table_list = null;
 var timerID = 0;
 
 function rebind() {
@@ -8,7 +8,7 @@ function rebind() {
         var data = {"table_id": this.id}
         viewOrders(data);
     });
-    table_list = $('#sb').html()
+
     viewOrders();
 }
 
@@ -20,9 +20,9 @@ function home() {
             var table_info = $($.parseHTML(response)).find('#table_info').html()
             $('#table_info').html(table_info)
             $('#side_bar').html(table_list)
-            rebind();
         }
     });
+    rebind();
 }
 
 function statusRefresh() {
@@ -41,13 +41,16 @@ function viewOrders(data) {
         url: 'waitstaff/vieworders',
         method: 'post',
         data: data,
-        success: function (response) {
-            var table = $($.parseHTML(response)).find('#orders').html()
+        complete: function (xhr) {
+
+            var table = $($.parseHTML(xhr.responseText)).find('#orders').html()
+            if (table == null)
+                table = xhr.responseText
             //update table if a change is detected
-            if(table != $('#table_info').html())
+            if (table != $('#table_info').html()) {
                 $('#table_info').html(table)
-        },
-        complete: function () {
+                rebind();
+            }
 
             clearInterval(timerID)
             timerID = setInterval(function () {
@@ -77,22 +80,21 @@ function viewOrders(data) {
             //EDIT EXISTING ORDER
             $('.edit_order').on('click', function () {
 
-                function toggleDelete(row, btn, txt){
-                    if (!row.hasClass('delete')){
+                function toggleDelete(row, btn, txt) {
+                    if (!row.hasClass('delete')) {
                         btn.removeClass('btn-danger').addClass('btn-success')
                         btn.html('Restore Item')
                         txt.attr('disabled', 'disabled')
-                        row.children().not(btn.closest('td')).fadeTo(500,.25)
+                        row.children().not(btn.closest('td')).fadeTo(500, .25)
                         row.addClass('delete')
 
-                    }else{
+                    } else {
                         btn.removeClass('btn-success').addClass('btn-danger')
                         btn.html('Remove Item')
                         txt.removeAttr('disabled')
                         row.children().fadeTo(500, 1)
                         row.removeClass('delete')
                     }
-
                 }
 
                 clearInterval(timerID)
@@ -111,6 +113,7 @@ function viewOrders(data) {
                     },
                     complete: function () {
                         //fade out the row and then remove from the table when remove clicked
+                        $('.item_remove').unbind('click')
                         $('.item_remove').on('click', function () {
                             var row = $(this).closest('tr')
                             var btn = $(this)
@@ -127,16 +130,18 @@ function viewOrders(data) {
                             var item = "<tr>" +
                                 "<td>" + item_name + "</td>" +
                                 "<td><input type='text' class='note' style='width: 96%;' value='' /></td>" +
-                                "<td><button class='btn btn-danger btn-small item_remove'>Remove</button> </td>" +
+                                "<td><button class='btn btn-danger btn-small item_remove'>Remove Item</button> </td>" +
                                 "</tr>";
 
                             $('#order_items').append(item);
 
                             //fade out the row and then remove from the table when remove clicked
+                            $('.item_remove').unbind('click')
                             $('.item_remove').on('click', function () {
                                 var row = $(this).closest('tr')
                                 var btn = $(this)
-                                toggleDelete(row, btn)
+                                var txt = row.find('.note')
+                                toggleDelete(row, btn, txt)
                             });
                         });
 
@@ -148,10 +153,10 @@ function viewOrders(data) {
                                 var menu_item = $(this.cells[0]).html()
                                 var order_item_id = $(this.cells[0]).attr('id')
                                 var menu_item_note = $(this).find('.note').val()
-                                if($(this).hasClass('delete')){
+                                if ($(this).hasClass('delete')) {
                                     data.push({ 'order_item_id': order_item_id, 'menu_item': menu_item, 'menu_item_note': menu_item_note, 'delete': true })
-                                }else{
-                                    data.push({ 'order_item_id': order_item_id, 'menu_item': menu_item, 'menu_item_note': menu_item_note })
+                                } else {
+                                    data.push({ 'order_item_id': order_item_id, 'menu_item': menu_item, 'menu_item_note': menu_item_note, 'delete': false })
                                 }
 
                             });
@@ -161,6 +166,7 @@ function viewOrders(data) {
                                 data: data,
                                 method: 'post',
                                 complete: function (xhr) {
+                                    //console.log(xhr.responseText)
                                     $.jGrowl(xhr.responseText);
                                     home();
                                 }
@@ -234,7 +240,6 @@ function newOrder(data) {
 }
 
 $('document').ready(function () {
-
+    table_list = $('#side_bar').html()
     rebind();
-
 });
