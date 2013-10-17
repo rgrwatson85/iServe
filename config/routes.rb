@@ -1,5 +1,6 @@
 IServe::Application.routes.draw do
 
+  devise_for :users
   get 'management',                 to: 'management_home#index'
 
   get  'kitchenstaff',              to: 'kitchen_staff_home#index'
@@ -34,9 +35,9 @@ IServe::Application.routes.draw do
 
   resources :tables
 
-  resources :employees
+  resources :users
 
-  resources :employee_types
+  resources :users_types
 
   root 'home#index'
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130927234206) do
+ActiveRecord::Schema.define(version: 20131014234819) do
 
   create_table "customer_order_items", force: true do |t|
     t.integer  "customer_order_id"
@@ -26,28 +26,6 @@ ActiveRecord::Schema.define(version: 20130927234206) do
     t.integer  "table_id"
     t.boolean  "is_order_ready"
     t.boolean  "is_order_paid_for"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "employee_tables", force: true do |t|
-    t.integer  "employee_id"
-    t.integer  "table_id"
-    t.datetime "assign_date"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "employee_types", force: true do |t|
-    t.string   "type_name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "employees", force: true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.integer  "employee_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -73,5 +51,41 @@ ActiveRecord::Schema.define(version: 20130927234206) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "user_tables", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "table_id"
+    t.datetime "assign_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_types", force: true do |t|
+    t.string   "type_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "users", force: true do |t|
+    t.string   "username"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "user_type_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

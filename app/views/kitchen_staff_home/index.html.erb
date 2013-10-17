@@ -17,9 +17,9 @@
         <td><%= Table.find(order.table_id).table_name %></td>
 
         <td>
-          <% EmployeeTable.where(:table_id => order.table_id).each do |emp_tab|
-            Employee.where(:id => emp_tab.employee_id).each do |employee| %>
-                  <%= employee.first_name %>
+          <% UserTable.where(:table_id => order.table_id).each do |emp_tab|
+            User.where(:id => emp_tab.user_id).each do |user| %>
+                  <%= user.first_name %>
                   <br/>
               <% end %>
           <% end %>
