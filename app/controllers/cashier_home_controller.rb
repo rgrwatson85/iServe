@@ -1,4 +1,7 @@
 class CashierHomeController < ApplicationController
+
+  TAX_RATE = ApplicationController::TAX_RATE
+
   def index
     @tables = Table.all
 
@@ -25,14 +28,27 @@ class CashierHomeController < ApplicationController
 
   def processpayment
 
+    receipt = ''
+    total = 0.0
+
     if (!params[:order_id])
       #mark all orders as having been paid
       @table = Table.find(params[:table_id])
       @orders = @table.customer_orders.where(:is_order_paid_for => false)
       @orders.each do |order|
+=begin
         order.is_order_ready    = true
         order.is_order_paid_for = true
         order.save!
+=end
+
+        #get all order items price
+        order.customer_order_items.each do |item|
+          item = MenuItem.find(item.menu_item_id)
+          total += item.item_price
+          receipt << "<tr><td> #{item.item_name} </td>"
+          receipt << "<td> #{ActionController::Base.helpers.number_to_currency(item.item_price, :precision => 2)} </td>"
+        end
       end
       session[:table_id] = @table.id
     else
@@ -41,10 +57,21 @@ class CashierHomeController < ApplicationController
       order.is_order_ready    = true
       order.is_order_paid_for = true
       order.save!
+
+      #get all order items price
+      order.customer_order_items.each do |item|
+        item = MenuItem.find(item.menu_item_id)
+        total += item.item_price
+        receipt << item.item_name << ' ' <<  ActionController::Base.helpers.number_to_currency(item.item_price, :precision => 2) << '<br />'
+      end
+
       session[:table_id] = order.table_id
     end
 
-    render :text => 'Payment processed.'
+    receipt << "<tr><td></td><td>SUBTOTAL</td><td>#{ActionController::Base.helpers.number_to_currency(total, :precision => 2)}</td>"
+    receipt << "<tr><td></td><td>TAX</td><td>#{ActionController::Base.helpers.number_to_currency(total * TAX_RATE, :precision => 2)}</td>"
+    receipt << "<tr><td></td><td>TOTAL</td><td>#{ActionController::Base.helpers.number_to_currency(total + total * TAX_RATE, :precision => 2)}</td>"
+    render :text => receipt.html_safe
 
   end
 

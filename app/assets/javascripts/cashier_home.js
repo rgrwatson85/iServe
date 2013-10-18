@@ -45,7 +45,9 @@ function rebind() {
             data: data,
             method: 'post',
             complete: function (xhr) {
-                $.jGrowl(xhr.responseText)
+                $('#receipt_table').html(null)
+                $('#receipt_table').append($($.parseHTML(xhr.responseText)))
+                $('#myModal').modal('show')
                 viewOrders()
             }
         });
