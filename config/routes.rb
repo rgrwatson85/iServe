@@ -1,6 +1,7 @@
 IServe::Application.routes.draw do
 
   devise_for :users
+
   get 'management',                 to: 'management_home#index'
 
   get  'kitchenstaff',              to: 'kitchen_staff_home#index'
@@ -35,14 +36,12 @@ IServe::Application.routes.draw do
 
   resources :tables
 
-  resources :users
-
   resources :users_types
 
   root 'home#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
-  # See how all your routes lay out with "rake routes".
+  # See how all your routes lay out with 'rake routes".
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'

@@ -3,31 +3,23 @@ var table_list = null;
 var timerID = 0;
 
 function rebind() {
+    //unbind click handler previously assigned
+    $('.table_button').unbind('click')
     //bind table buttons to ajax request
     $('.table_button').on('click', function () {
         var data = {"table_id": this.id}
         viewOrders(data);
     });
-
-    viewOrders();
 }
 
 function home() {
-    $.ajax({
-        url: 'waitstaff',
-        method: 'get',
-        complete: function (response) {
-            var table_info = $($.parseHTML(response)).find('#table_info').html()
-            $('#table_info').html(table_info)
-            $('#side_bar').html(table_list)
-        }
-    });
-    rebind();
+    $('#side_bar').html(table_list)
+    viewOrders()
 }
 
 function statusRefresh() {
 
-    //unbind all the click handlers so they do not fire multiple times
+    //unbind all the click handlers in view orders so they do not fire multiple times
     $('.edit_order').unbind('click')
     $('.delete_order').unbind('click')
     $('.open_new_order').unbind('click')
@@ -241,5 +233,5 @@ function newOrder(data) {
 
 $('document').ready(function () {
     table_list = $('#side_bar').html()
-    rebind();
+    viewOrders();
 });

@@ -1,23 +1,71 @@
 <h2>Edit <%= resource_name.to_s.humanize %></h2>
-
+<% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+<% end %>
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+    <div class="control-group">
+      <%= f.label :email, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.email_field :email, :class => 'email_field', :autofocus => true %>
+      </div>
+    </div>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
+    <div class="control-group">
+      <%= f.label :username, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :username, :class => 'text_field' %>
+      </div>
+    </div>
 
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-  <%= f.password_field :password, :autocomplete => "off" %></div>
+    <div class="control-group">
+      <%= f.label :first_name, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :first_name, :class => 'text_field' %>
+      </div>
+    </div>
 
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
+    <div class="control-group">
+      <%= f.label :last_name, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :last_name, :class => 'text_field' %>
+      </div>
+    </div>
 
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-  <%= f.password_field :current_password %></div>
+    <div class="control-group">
+      <%= f.label :password, :class => 'control-label' %>
+      <i>(leave blank if no change wanted)</i>
+      <div class="controls">
+        <%= f.password_field :password, :class => 'password_field' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :password_confirmation, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.password_field :password_confirmation, :class => 'password_field' %>
+      </div>
+    </div>
+
+    <% if current_user.user_type_id == 1 %>
+        <div class="control-group">
+          <%= f.label :user_type_id, :class => 'control-label' %>
+          <div class="controls">
+            <%= f.collection_select(:user_type_id, UserType.all, :id, :type_name, :prompt => 'Select Role...', :class => 'text_field' ) %>
+          </div>
+        </div>
+    <% else %>
+        <%= f.hidden_field :user_type_id, :value => current_user.user_type_id %>
+    <% end %>
+
+    <div class="control-group">
+      <%= f.label :current_password, :class => 'control-label' %>
+      <i>(we need your current password to make any changes)</i>
+      <div class="controls">
+        <%= f.password_field :current_password, :class => 'password_field' %>
+      </div>
+    </div>
 
   <div><%= f.submit "Update" %></div>
 <% end %>
