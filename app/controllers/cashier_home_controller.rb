@@ -36,11 +36,10 @@ class CashierHomeController < ApplicationController
       @table = Table.find(params[:table_id])
       @orders = @table.customer_orders.where(:is_order_paid_for => false)
       @orders.each do |order|
-=begin
+
         order.is_order_ready    = true
         order.is_order_paid_for = true
         order.save!
-=end
 
         #get all order items price
         order.customer_order_items.each do |item|
@@ -62,7 +61,8 @@ class CashierHomeController < ApplicationController
       order.customer_order_items.each do |item|
         item = MenuItem.find(item.menu_item_id)
         total += item.item_price
-        receipt << item.item_name << ' ' <<  ActionController::Base.helpers.number_to_currency(item.item_price, :precision => 2) << '<br />'
+        receipt << "<tr><td> #{item.item_name} </td>"
+        receipt << "<td> #{ActionController::Base.helpers.number_to_currency(item.item_price, :precision => 2)} </td>"
       end
 
       session[:table_id] = order.table_id

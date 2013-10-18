@@ -48,6 +48,12 @@ function rebind() {
                 $('#receipt_table').html(null)
                 $('#receipt_table').append($($.parseHTML(xhr.responseText)))
                 $('#myModal').modal('show')
+                $('#btn_print').unbind('click')
+                $('#btn_print').on('click', function(){
+                    alert("Receipt sent to printer...")
+                    $('#myModal').modal('hide')
+
+                });
                 viewOrders()
             }
         });
