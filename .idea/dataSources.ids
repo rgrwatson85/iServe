@@ -2375,6 +2375,7 @@
       <primary-key name="users_pkey" columns="id"/>
       <index name="index_users_on_email" unique="true" columns="email"/>
       <index name="index_users_on_reset_password_token" unique="true" columns="reset_password_token"/>
+      <index name="index_users_on_username" unique="true" columns="username"/>
     </table>
     <table name="users_id_seq" schema="public" catalog="iServe_development" type="SEQUENCE">
       <column name="sequence_name" sqlType="name" length="2147483647" precision="0" nullable="false" jdbcType="12"/>

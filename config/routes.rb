@@ -19,6 +19,7 @@ IServe::Application.routes.draw do
 
   get  'cashier',                   to: 'cashier_home#index'
   post 'cashier',                   to: 'cashier_home#index'
+  post 'cashier/calculatetotal',    to: 'cashier_home#calculatetotal'
   post 'cashier/processpayment',    to: 'cashier_home#processpayment'
 
   get 'home/index'

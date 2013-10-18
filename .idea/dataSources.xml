@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="879208985">
+  <component name="DataSourceManagerImpl" format="xml" hash="921644564">
     <data-source source="LOCAL" name="Rails iServe: production" product="" version="" jdbc-version="" driver-name="" driver-version="" uuid="8799a199-8d54-49c0-8795-e588976dccd8">
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql:iServe_production</jdbc-url>

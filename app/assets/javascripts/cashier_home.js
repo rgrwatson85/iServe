@@ -41,7 +41,7 @@ function rebind() {
             var data = {'order_id': $(this).closest('tr').attr('id')}
 
         $.ajax({
-            url: 'cashier/processpayment',
+            url: 'cashier/calculatetotal',
             data: data,
             method: 'post',
             complete: function (xhr) {
@@ -50,13 +50,22 @@ function rebind() {
                 $('#myModal').modal('show')
                 $('#btn_print').unbind('click')
                 $('#btn_print').on('click', function(){
-                    alert("Receipt sent to printer...")
+                    $.jGrowl("Receipt sent to printer...")
                     $('#myModal').modal('hide')
 
+                    $.ajax({
+                        url: 'cashier/processpayment',
+                        data: data,
+                        method: 'post',
+                        complete: function (xhr) {
+                            $.jGrowl(xhr.responseText)
+                            viewOrders()
+                        }
+                    });
                 });
-                viewOrders()
             }
         });
+
     });
 }
 
