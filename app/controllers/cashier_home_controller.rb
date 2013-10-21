@@ -1,5 +1,6 @@
 class CashierHomeController < ApplicationController
-
+  before_filter :is_authorized
+  
   TAX_RATE = ApplicationController::TAX_RATE
 
   def index
@@ -94,6 +95,17 @@ class CashierHomeController < ApplicationController
 
     render :text => 'Transaction completed'
 
+  end
+
+
+
+  private
+
+  def is_authorized
+    if ![1,3].include?(current_user.user_type_id)
+      flash[:error] = 'Not authorized to view this resource.'
+      redirect_to :back
+    end
   end
 
 end

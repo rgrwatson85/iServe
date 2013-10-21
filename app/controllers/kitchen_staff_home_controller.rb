@@ -1,5 +1,6 @@
 class KitchenStaffHomeController < ApplicationController
-
+  before_filter :is_authorized
+  
   def index
     @open_orders = CustomerOrder.where(:is_order_ready => false).order('table_id asc, id asc')
   end
@@ -49,6 +50,17 @@ class KitchenStaffHomeController < ApplicationController
 
     render :text => 'success'
 
+  end
+
+
+
+  private
+
+  def is_authorized
+    if ![1,4].include?(current_user.user_type_id)
+      flash[:error] = 'Not authorized to view this resource.'
+      redirect_to :back
+    end
   end
 
 end

@@ -133,16 +133,14 @@ class WaitStaffHomeController < ApplicationController
   private
 
   def is_authorized
-    utid = current_user.user_type_id
-    if utid > 2
+    if ![1,2].include?(current_user.user_type_id)
       flash[:error] = 'Not authorized to view this resource.'
       redirect_to :back
     end
   end
 
   def is_authorized_to_view_table
-    utid = current_user.user_type_id
-    if utid > 3
+    if ![1,2,3].include?(current_user.user_type_id)
       render :text => 'Not authorized to view this resource.'
     end
   end
