@@ -32,7 +32,7 @@ class WaitStaffHomeController < ApplicationController
     end
 
     if items_total > 0
-      @percent_done = ((items_complete/items_total) * 100).to_s << '%'
+      @percent_done = ActionController::Base.helpers.number_to_percentage( (items_complete/items_total) * 100, :precision => 1 )
     else
       @percent_done = '0.0%'
     end

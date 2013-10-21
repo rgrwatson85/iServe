@@ -41,13 +41,31 @@ function viewOrders(data) {
             //update table if a change is detected
             if (table != $('#table_info').html()) {
                 $('#table_info').html(table)
+                $.each($('#table_info tr').prop('hover', false), function () {
+                    $(this).find('button').css('opacity', 0)
+                })
+
                 rebind();
             }
+
+            $('#table_info tr').hover(
+                function () {
+                    if (this.id) {
+                        $(this).find('button').css('opacity', 1)
+                    }
+                },
+                function () {
+                    if (this.id) {
+                        $(this).find('button').css('opacity', 0)
+                    }
+
+                }
+            );
 
             clearInterval(timerID)
             timerID = setInterval(function () {
                 statusRefresh();
-            }, 5000);
+            }, 5700);
 
             $('.open_new_order').on('click', function () {
                 clearInterval(timerID)

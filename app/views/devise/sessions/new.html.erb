@@ -15,3 +15,26 @@
 <% end %>
 
 <%= render "devise/shared/links" %>
+
+
+<table class='table'>
+  <caption><h4>Usernames and passwords</h4></caption>
+  <thead>
+    <tr>
+      <th>Username</th>
+      <th>Password</th>
+      <th>User Type</th>
+    </tr>
+  </thead>
+  <tbody>
+<% UserType.all.each do |user_type| %>
+    <% User.where(:user_type_id => user_type.id).each do |user| %>
+        <tr>
+          <td><%= user.username %></td>
+          <td>password</td>
+          <td><%= user_type.type_name %></td>
+        </tr>
+    <% end %>
+<% end %>
+  </tbody>
+</table>

@@ -35,9 +35,9 @@
                        item_price = MenuItem.find(item.menu_item_id).item_price
                        order_price += item_price
                        status = item.is_menu_item_ready ?
-                               '<i class="icon-large icon-check"></i>'.html_safe
+                               '<i class="icon-large icon-ok-sign"></i>'.html_safe
                        :
-                               '<i class="icon-spinner icon-spin icon-large"></i>'.html_safe
+                               '<i class="icon-large icon-minus-sign"></i>'.html_safe
                   %>
 
                       <tr>

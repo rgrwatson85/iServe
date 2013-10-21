@@ -22,5 +22,10 @@
     <%= f.submit 'Update Menu Item', :class => 'btn btn-primary', :id => 'item_submit' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 menu_items_path, :class => 'btn item_cancel' %>
+    <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                menu_item_path(@menu_item),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-small btn-danger' %>
   </div>
 <% end %>

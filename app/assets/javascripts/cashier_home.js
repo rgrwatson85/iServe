@@ -1,3 +1,13 @@
+var timerID = 0;
+
+function statusRefresh() {
+
+    //unbind all the click handlers in view orders so they do not fire multiple times
+    $('button').unbind('click')
+    var data = {"table_id": $('.open_new_order').attr('id')}
+    viewOrders(data);
+}
+
 function viewOrders(data) {
     $.ajax({
         url: 'waitstaff/vieworders',
@@ -11,8 +21,30 @@ function viewOrders(data) {
             //update table if a change is detected
             if (table != $('#table_info').html()) {
                 $('#table_info').html(table)
+                $.each($('#table_info tr').prop('hover', false), function () {
+                    $(this).find('button').css('opacity', 0)
+                })
                 rebind();
             }
+
+            $('#table_info tr').hover(
+                function () {
+                    if (this.id) {
+                        $(this).find('button').css('opacity', 1)
+                    }
+                },
+                function () {
+                    if (this.id) {
+                        $(this).find('button').css('opacity', 0)
+                    }
+
+                }
+            );
+
+            clearInterval(timerID)
+            timerID = setInterval(function () {
+                statusRefresh();
+            }, 5700);
         }
     });
 }
