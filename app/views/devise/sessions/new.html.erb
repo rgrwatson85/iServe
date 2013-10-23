@@ -1,40 +1,58 @@
-<h2>Sign in</h2>
+<div class='well'>
+  <h2>Sign In</h2>
 
-<%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
-  <div><%= f.label :username %><br />
-  <%= f.text_field :username, :autofocus => true %></div>
+  <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+      <div><%= f.label :username %>
+        <br/>
+        <%= f.text_field :username, :autofocus => true, :id => 'uname' %></div>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
+      <div><%= f.label :password %>
+        <br/>
+        <%= f.password_field :password, :id => 'pass' %></div>
 
-  <% if devise_mapping.rememberable? -%>
-    <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
-  <% end -%>
+      <% if devise_mapping.rememberable? -%>
+          <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>
+      <% end -%>
 
-  <div><%= f.submit "Sign in" %></div>
-<% end %>
+      <div><%= f.submit "Sign in", :class => 'btn btn-large btn-info' %></div>
+  <% end %>
 
-<%= render "devise/shared/links" %>
+  <%= render "devise/shared/links" %>
+</div>
 
-
-<table class='table'>
-  <caption><h4>Usernames and passwords</h4></caption>
-  <thead>
-    <tr>
-      <th>Username</th>
-      <th>Password</th>
-      <th>User Type</th>
-    </tr>
-  </thead>
-  <tbody>
-<% UserType.all.each do |user_type| %>
-    <% User.where(:user_type_id => user_type.id).each do |user| %>
+<%= content_for :sidebar do %>
+    <div class='well'>
+      <table class='table users'>
+        <caption><h5>Click Row To Select User</h5></caption>
+        <thead>
         <tr>
-          <td><%= user.username %></td>
-          <td>password</td>
-          <td><%= user_type.type_name %></td>
+          <th>Username</th>
+          <th>User Type</th>
+          <th></th>
         </tr>
-    <% end %>
+        </thead>
+        <tbody>
+        <% UserType.all.each do |user_type| %>
+            <% User.where(:user_type_id => user_type.id).each do |user| %>
+                <tr>
+                  <td><%= user.username %></td>
+                  <td><%= user_type.type_name %></td>
+                  <td style="display:none">password</td>
+                </tr>
+            <% end %>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
 <% end %>
-  </tbody>
-</table>
+
+<script>
+    $(document).ready(function () {
+        $('.users tbody tr').on('click', function () {
+            var uname = $(this).find('td').eq(0).html()
+            var pass = $(this).find('td').eq(2).html()
+            $('#uname').val(uname)
+            $('#pass').val(pass)
+        });
+    });
+</script>

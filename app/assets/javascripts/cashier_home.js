@@ -2,9 +2,7 @@ var timerID = 0;
 
 function statusRefresh() {
 
-    //unbind all the click handlers in view orders so they do not fire multiple times
-    $('button').unbind('click')
-    var data = {"table_id": $('.open_new_order').attr('id')}
+    var data = {"from_cashier": "true","table_id": $('.process_all_payment').attr('id')}
     viewOrders(data);
 }
 
@@ -60,9 +58,11 @@ function rebind() {
 
     $('.delete_order').hide()
 
+    //unbind click handlers in view orders so they do not fire multiple times
+    $('.table_button').unbind('click')
     //bind table buttons to ajax request
     $('.table_button').on('click', function () {
-        var data = {"table_id": this.id}
+        var data = {"from_cashier":"true","table_id": this.id}
         viewOrders(data)
     });
 
@@ -102,5 +102,6 @@ function rebind() {
 }
 
 $(document).ready(function () {
-    viewOrders()
+    var data = {"from_cashier": "true","table_id": $('.open_new_order').attr('id')}
+    viewOrders(data);
 });

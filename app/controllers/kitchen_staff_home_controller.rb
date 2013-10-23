@@ -1,6 +1,6 @@
 class KitchenStaffHomeController < ApplicationController
   before_filter :is_authorized
-  
+
   def index
     @open_orders = CustomerOrder.where(:is_order_ready => false).order('table_id asc, id asc')
   end

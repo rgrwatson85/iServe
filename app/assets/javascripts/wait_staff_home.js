@@ -81,7 +81,8 @@ function viewOrders(data) {
                     method: 'post',
                     data: data2,
                     dataType: 'js',
-                    complete: function () {
+                    complete: function (xhr) {
+                        $.jGrowl(xhr.responseText)
                         viewOrders(data)
                     }
                 });

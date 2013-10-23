@@ -14,7 +14,13 @@ class WaitStaffHomeController < ApplicationController
       @table = Table.first
     end
 
-    @orders = @table.customer_orders.where(:is_order_paid_for => false)
+    #check if the request is coming from the cashier. if true then only show orders that are marked as ready
+    if params[:from_cashier] && params[:from_cashier] == 'true'
+      @orders = @table.customer_orders.where(:is_order_paid_for => false, :is_order_ready => true)
+    else#show all of the orders
+      @orders = @table.customer_orders.where(:is_order_paid_for => false)
+    end
+
 
     @total = 0.0
     items_complete = 0.0
@@ -73,9 +79,20 @@ class WaitStaffHomeController < ApplicationController
   end
 
   def deleteorder
-    @order = CustomerOrder.find(params[:id])
-    @order.destroy!
-    render :json => {'success' => true}
+    order = CustomerOrder.find(params[:id])
+    if order.is_order_ready
+      #order is already prepared. only a manager can remove it
+      if is_admin?
+        order.destroy!
+        render :text => 'Order successfully removed.'
+      else
+        render :text => 'The order has already been prepared. This action must be performed by a manager.'
+      end
+    #order is not ready yet. waitstaff can remove order
+    else
+      order.destroy!
+      render :text => 'Order successfully removed.'
+    end
   end
 
   def editorder
@@ -142,6 +159,14 @@ class WaitStaffHomeController < ApplicationController
   def is_authorized_to_view_table
     if ![1,2,3].include?(current_user.user_type_id)
       render :text => 'Not authorized to view this resource.'
+    end
+  end
+
+  def is_admin?
+    if ![1].include?(current_user.user_type_id)
+      false
+    else
+      true
     end
   end
 
