@@ -56,5 +56,3 @@ production:
   encoding: unicode
   database: iServe_production
   pool: 5
-  username: mrgnwatson
-  password:

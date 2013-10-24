@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
+ruby '2.0.0'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg'
-
-# Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.0'
+gem 'rails_12factor', group: :production
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
@@ -35,18 +35,6 @@ group :doc do
   gem 'sdoc', require: false
 end
 
-# Use ActiveModel has_secure_password
-gem 'bcrypt-ruby', '~> 3.0.0'
-
 #use Bootstrap
 gem 'twitter-bootstrap-rails'
 gem 'less-rails'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Use Capistrano for deployment
-# gem 'capistrano', group: :development
-
-# Use debugger
-# gem 'debugger', group: [:development, :test]
