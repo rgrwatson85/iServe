@@ -82,7 +82,7 @@ function rebind() {
                 $('#myModal').modal('show')
                 $('#btn_print').unbind('click')
                 $('#btn_print').on('click', function(){
-                    $.jGrowl("Receipt sent to printer...")
+                    showDialog("Receipt sent to printer...")
                     $('#myModal').modal('hide')
 
                     $.ajax({
@@ -90,7 +90,7 @@ function rebind() {
                         data: data,
                         method: 'post',
                         complete: function (xhr) {
-                            $.jGrowl(xhr.responseText)
+                            showDialog(xhr.responseText)
                             viewOrders()
                         }
                     });

@@ -18,7 +18,7 @@ function refresh(item_id) {
                     method: 'patch',
                     complete: function (xhr) {
                         if (xhr.statusText == "OK ") {
-                            $.jGrowl(xhr.responseText)
+                            showDialog(xhr.responseText)
                         }
                     }
                 });

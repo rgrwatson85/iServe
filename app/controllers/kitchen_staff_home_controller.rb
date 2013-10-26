@@ -48,7 +48,7 @@ class KitchenStaffHomeController < ApplicationController
 
     @order.save
 
-    render :text => 'success'
+    render :text => 'Ready state changed'
 
   end
 

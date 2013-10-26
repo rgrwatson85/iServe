@@ -15,6 +15,10 @@
 //= require jquery.ui.all
 //= require twitter/bootstrap
 
+function showDialog(msg){
+    $.jGrowl(msg)
+}
+
 $(document).ready(function(){
     $('.alert').css('opacity',.75).css('font-size', '24px').delay(1500).fadeOut()
 });

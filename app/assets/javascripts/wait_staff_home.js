@@ -82,7 +82,7 @@ function viewOrders(data) {
                     data: data2,
                     dataType: 'js',
                     complete: function (xhr) {
-                        $.jGrowl(xhr.responseText)
+                        showDialog(xhr.responseText)
                         viewOrders(data)
                     }
                 });
@@ -178,7 +178,7 @@ function viewOrders(data) {
                                 method: 'post',
                                 complete: function (xhr) {
                                     //console.log(xhr.responseText)
-                                    $.jGrowl(xhr.responseText);
+                                    showDialog(xhr.responseText);
                                     home();
                                 }
                             });
@@ -240,7 +240,7 @@ function newOrder(data) {
                     data: data,
                     method: 'post',
                     complete: function (xhr) {
-                        $.jGrowl(xhr.responseText);
+                        showDialog(xhr.responseText);
                         home();
                     }
                 });

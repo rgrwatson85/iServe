@@ -11,8 +11,8 @@ function rebind() {
             data: data,
             method: 'post',
             dataType: 'js',
-            success: function (response) {
-                alert(response)
+            complete: function (xhr) {
+                showDialog(xhr.responseText)
             }
         });
         if (btn.hasClass("btn-success")) {
