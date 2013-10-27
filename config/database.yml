@@ -19,6 +19,7 @@ development:
   encoding: unicode
   database: iServe_development
   pool: 5
+  host: localhost
   username: mrgnwatson
   password:
 
@@ -48,6 +49,7 @@ test:
   encoding: unicode
   database: iServe_test
   pool: 5
+  host: localhost
   username: mrgnwatson
   password:
 
