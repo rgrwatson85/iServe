@@ -200,6 +200,7 @@ function newOrder(data) {
             var side_bar = $($.parseHTML(response)).find('#menu').html()
             $('#table_info').html(order_form)
             $('#side_bar').html(side_bar)
+			$("#add_menu_item").remove();
         },
         complete: function () {
             //add items to the order form (|item name||notes|)

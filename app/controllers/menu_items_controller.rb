@@ -28,8 +28,9 @@ class MenuItemsController < ApplicationController
 
     respond_to do |format|
       if @menu_item.save
-        format.html { redirect_to @menu_item, notice: 'Menu item was successfully created.' }
+        format.html { render :text => 'Menu item was successfully created.'}#redirect_to @menu_item, notice: 'Menu item was successfully created.' }
         format.json { render action: 'show', status: :created, location: @menu_item }
+        format.js   { redirect_to :back }
       else
         format.html { render action: 'new' }
         format.json { render json: @menu_item.errors, status: :unprocessable_entity }
@@ -48,7 +49,7 @@ class MenuItemsController < ApplicationController
       else
         format.html { render action: 'edit' }
         format.json { render json: @menu_item.errors, status: :unprocessable_entity }
-        format.js   { render :text => 'Item updated'}
+        format.js   { render :text => 'Item update error!'}
       end
     end
   end

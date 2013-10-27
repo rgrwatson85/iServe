@@ -25,19 +25,19 @@ IServe::Application.routes.draw do
   get 'home/index'
   
 
-  resources :menus
+  #resources :menus
 
   resources :menu_items
 
-  resources :customer_order_items
+ # resources :customer_order_items
 
-  resources :customer_orders
+ # resources :customer_orders
 
-  resources :employee_tables
+ # resources :employee_tables
 
-  resources :tables
+ # resources :tables
 
-  resources :users_types
+ # resources :users_types
 
   root 'home#index'
 
