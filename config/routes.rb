@@ -2,8 +2,6 @@ IServe::Application.routes.draw do
 
   devise_for :users
 
-  get 'management',                 to: 'management_home#index'
-
   get  'kitchenstaff',              to: 'kitchen_staff_home#index'
   post 'kitchenstaff/itemcomplete', to: 'kitchen_staff_home#itemcomplete'
   post 'kitchenstaff/getnote',      to: 'kitchen_staff_home#getnote'
@@ -24,20 +22,26 @@ IServe::Application.routes.draw do
 
   get 'home/index'
   
-
-  #resources :menus
-
-  resources :menu_items
-
- # resources :customer_order_items
-
- # resources :customer_orders
-
- # resources :employee_tables
-
- # resources :tables
-
- # resources :users_types
+  get 'management', to: 'admin/management_home#index'
+  
+  scope :management do
+    
+    resources :menus, :controller => 'admin/menus'
+    
+    resources :menu_items, :controller => 'admin/menu_items'   
+                   
+    resources :customer_order_items, :controller => 'admin/customer_order_items'
+                   
+    resources :customer_orders, :controller => 'admin/customer_orders'    
+                   
+    resources :employee_tables, :controller => 'admin/employee_tables'    
+                   
+    resources :tables, :controller => 'admin/tables'             
+                   
+    resources :users_types, :controller => 'admin/users_types'
+  end
+  
+         
 
   root 'home#index'
 

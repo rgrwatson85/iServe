@@ -3,7 +3,7 @@ var global_id = 0;
 function refresh(item_id) {
 	global_id = item_id
 	$.ajax({
-		url: '/menu_items/' + item_id + '/edit',
+		url: 'management/menu_items/' + item_id + '/edit',
 		success: function(response) {
 			var edit_form = $($.parseHTML(response)).find('.content').html()
 			$('#content_area').html(edit_form)
@@ -15,7 +15,7 @@ function refresh(item_id) {
 				e.preventDefault()
 				console.log(item_id)
 				$.ajax({
-					url: '/menu_items/' + item_id + '.js',
+					url: 'management/menu_items/' + item_id + '.js',
 					dataType: 'js',
 					method: 'delete',
 					complete: function(xhr){
@@ -34,7 +34,7 @@ function refresh(item_id) {
 				e.preventDefault();
 				var data = $(this).closest('form').serialize();
 				$.ajax({
-					url: '/menu_items/' + item_id + '.js',
+					url: 'management/menu_items/' + item_id + '.js',
 					data: data,
 					dataType: 'js',
 					method: 'patch',
@@ -51,7 +51,7 @@ function refresh(item_id) {
 
 function addItem() {
 	$.ajax({
-		url: 'menu_items/new',
+		url: 'management/menu_items/new',
 		dataType: 'html',
 		method: 'get',
 		complete: function(xhr) {
@@ -67,7 +67,7 @@ function addItem() {
 				e.preventDefault();
 				var data = $(this).closest('form').serialize();
 				$.ajax({
-					url: '/menu_items',
+					url: 'management/menu_items',
 					data: data,
 					dataType: 'js',
 					method: 'post',
