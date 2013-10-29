@@ -14,3 +14,17 @@
  *= require sidebar
  *= require jquery.ui.all
  */
+
+.nav-offset{
+      margin-top: 60px;
+  	}
+.alert{
+	color: black;
+	text-align: center;
+	position: absolute;
+	top: 60px;
+}
+
+.navbar.navbar-fixed-top .navbar-inner{
+    background: rgba(0, 0, 0, 0.85);
+}

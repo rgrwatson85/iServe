@@ -13,40 +13,30 @@ function refresh(item_id) {
 			$('#item_submit').val('Update Menu Item')
 			$("#item_delete").on("click", function(e){
 				e.preventDefault()
-				console.log(item_id)
-				$.ajax({
-					url: 'management/menu_items/' + item_id + '.js',
-					dataType: 'js',
-					method: 'delete',
-					complete: function(xhr){
-						showDialog(xhr.responseText)
-						$.ajax({
-							url: '/management',
-							complete: function(xhr) {
-								$("#side_bar").html($($.parseHTML(xhr.responseText)).find('#side_bar').html())
-								setSidebar()
-							}
-						})
-					}
-				});
+				callMenuItem('delete', null)
 			})
 			$('#item_submit').on('click', function(e) {
 				e.preventDefault();
 				var data = $(this).closest('form').serialize();
-				$.ajax({
-					url: 'management/menu_items/' + item_id + '.js',
-					data: data,
-					dataType: 'js',
-					method: 'patch',
-					complete: function(xhr) {
-						showDialog(xhr.responseText)
-						refresh(item_id)
-					}
-				});
+				callMenuItem('patch', data)
 			});
 		}
 
 	});
+	
+	function callMenuItem(method, data){
+		$.ajax({
+			url: 'management/menu_items/' + global_id + '.js',
+			data: data,
+			dataType: 'js',
+			method: method,
+			complete: function(xhr){
+				showDialog(xhr.responseText)
+				setSidebar()
+			}
+		});
+	}
+	
 }
 
 function addItem() {
@@ -73,14 +63,7 @@ function addItem() {
 					method: 'post',
 					complete: function(xhr) {
 						showDialog(xhr.responseText)
-						$.ajax({
-							url: '/management',
-							complete: function(xhr) {
-								$("#side_bar").html($($.parseHTML(xhr.responseText)).find('#side_bar').html())
-								refresh(global_id)
-								setSidebar()
-							}
-						})
+						setSidebar()
 					}
 				});
 			})
@@ -89,18 +72,27 @@ function addItem() {
 }
 
 function setSidebar() {
-	$("#add_menu_item").show();
-	$("#add_menu_item").on("click", function() {
-		addItem();
-	});
+	
+	$.ajax({
+		url: '/management',
+		complete: function(xhr) {
+			$("#side_bar").html($($.parseHTML(xhr.responseText)).find('#side_bar').html())
+			refresh(global_id)
+			$("#add_menu_item").show();
+			
+			$("#add_menu_item").on("click", function() {
+				addItem();
+			});
 
-	$('.item').on('click', function() {
-		var item_id = $(this).closest('div').attr('id')
-		refresh(item_id);
-	});
+			$('.item').on('click', function() {
+				var item_id = $(this).closest('div').attr('id')
+				refresh(item_id);
+			});
 
-	$('.accordion-toggle:first').click()
-	$('.item:first').click();
+			$('.accordion-toggle:first').click()
+			$('.item:first').click();
+		}
+	})
 }
 
 $(document).ready(setSidebar);
