@@ -85,5 +85,4 @@ module Admin
         params.require(:customer_order).permit(:table_id, :is_order_ready, :is_order_paid_for)
       end
   end
-  s
 end
