@@ -16,7 +16,18 @@
 //= require twitter/bootstrap
 
 function showDialog(msg){
-    $.jGrowl(msg)
+    $.gritter.add({
+					// (string | mandatory) the heading of the notification
+					title: 'Notice',
+					// (string | mandatory) the text inside the notification
+					text: msg,
+					// (string | optional) the image to display on the left
+					image: '',
+					// (bool | optional) if you want it to fade out on its own or just sit there
+					sticky: false,
+					// (int | optional) the time you want it to be alive for before fading out
+					time: ''
+				});
 }
 
 $(document).ready(function(){
