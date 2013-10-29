@@ -9,8 +9,27 @@ function refresh(item_id) {
 			$('#content_area').html(edit_form)
 		},
 		complete: function() {
-			$('.item_cancel').hide()
-			$("#item_submit").val("Update Menu Item")
+			$('#item_cancel').hide()
+			$('#item_submit').val('Update Menu Item')
+			$("#item_delete").on("click", function(e){
+				e.preventDefault()
+				console.log(item_id)
+				$.ajax({
+					url: '/menu_items/' + item_id + '.js',
+					dataType: 'js',
+					method: 'delete',
+					complete: function(xhr){
+						showDialog(xhr.responseText)
+						$.ajax({
+							url: '/management',
+							complete: function(xhr) {
+								$("#side_bar").html($($.parseHTML(xhr.responseText)).find('#side_bar').html())
+								setSidebar()
+							}
+						})
+					}
+				});
+			})
 			$('#item_submit').on('click', function(e) {
 				e.preventDefault();
 				var data = $(this).closest('form').serialize();
@@ -20,12 +39,10 @@ function refresh(item_id) {
 					dataType: 'js',
 					method: 'patch',
 					complete: function(xhr) {
-						if (xhr.statusText == "OK ") {
-							showDialog(xhr.responseText)
-						}
+						showDialog(xhr.responseText)
+						refresh(item_id)
 					}
 				});
-				refresh(item_id)
 			});
 		}
 
@@ -41,8 +58,8 @@ function addItem() {
 			var new_form = $($.parseHTML(xhr.responseText)).find('.content').html()
 			$('#content_area').html(new_form)
 			$("#item_submit").val("Create Menu Item")
-			$(".btn-danger").hide()
-			$(".item_cancel").on("click", function(e) {
+			$("#item_delete").hide()
+			$("#item_cancel").on("click", function(e) {
 				e.preventDefault()
 				refresh(global_id)
 			})
@@ -62,7 +79,6 @@ function addItem() {
 								$("#side_bar").html($($.parseHTML(xhr.responseText)).find('#side_bar').html())
 								refresh(global_id)
 								setSidebar()
-
 							}
 						})
 					}
