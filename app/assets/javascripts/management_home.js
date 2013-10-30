@@ -1,6 +1,6 @@
 var global_id = 0;
 
-function refresh(item_id) {
+function setContent(item_id) {
 	global_id = item_id
 	$.ajax({
 		url: 'management/menu_items/' + item_id + '/edit',
@@ -32,7 +32,7 @@ function refresh(item_id) {
 			method: method,
 			complete: function(xhr){
 				showDialog(xhr.responseText)
-				setSidebar()
+				refresh()
 			}
 		});
 	}
@@ -51,7 +51,7 @@ function addItem() {
 			$("#item_delete").hide()
 			$("#item_cancel").on("click", function(e) {
 				e.preventDefault()
-				refresh(global_id)
+				setContent(global_id)
 			})
 			$("#item_submit").on("click", function(e) {
 				e.preventDefault();
@@ -63,7 +63,8 @@ function addItem() {
 					method: 'post',
 					complete: function(xhr) {
 						showDialog(xhr.responseText)
-						setSidebar()
+						if (xhr.getResponseHeader('content-type').indexOf('text/html') >= 0)
+							refresh()
 					}
 				});
 			})
@@ -71,7 +72,7 @@ function addItem() {
 	});
 }
 
-function setSidebar() {
+function refresh() {
 	
 	$.ajax({
 		url: '/management',
@@ -86,7 +87,7 @@ function setSidebar() {
 
 			$('.item').on('click', function() {
 				var item_id = $(this).closest('div').attr('id')
-				refresh(item_id);
+				setContent(item_id);
 			});
 
 			$('.accordion-toggle:first').click()
@@ -95,4 +96,4 @@ function setSidebar() {
 	})
 }
 
-$(document).ready(setSidebar);
+$(document).ready(refresh);

@@ -31,9 +31,9 @@ module Admin
         if @menu_item.save
           format.html { redirect_to @menu_item, notice: 'Menu item was successfully created.' }
           format.json { render action: 'show', status: :created, location: @menu_item }
-          format.js   { render :text => 'Menu item was successfully created.' }
+          format.js   { render :text => 'Menu item was successfully created.', content_type: 'text/html' }
         else
-          format.html { render :text => @menu_item.errors}#{ render action: 'new' }
+          format.html { render action: 'new' }
           format.json { render json: @menu_item.errors, status: :unprocessable_entity }
           format.js   { 
             msg = ''

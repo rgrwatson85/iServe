@@ -234,7 +234,7 @@ function newOrder(data) {
                     data.push({ 'menu_item': menu_item, 'menu_item_note': menu_item_note })
                 });
 
-                data = {'orders': data}
+                data = {'items': data}
 
                 $.ajax({
                     url: 'waitstaff/saveorder',

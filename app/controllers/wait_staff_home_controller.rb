@@ -52,7 +52,7 @@ class WaitStaffHomeController < ApplicationController
 
   def saveorder
 
-    orders = params[:orders]
+    items = params[:items]
 
     order = CustomerOrder.new()
     order.table_id = session[:table_id]
@@ -61,7 +61,7 @@ class WaitStaffHomeController < ApplicationController
     order.save
     order_id = order.id
 
-    orders.each do |key, value|
+    items.each do |key, value|
       item = value['menu_item']
       note = value['menu_item_note']
 
