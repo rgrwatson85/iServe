@@ -26,9 +26,9 @@ function refresh(item_id) {
 	
 	function callMenuItem(method, data){
 		$.ajax({
-			url: 'management/menu_items/' + global_id + '.js',
+			url: 'management/menu_items/' + global_id,
 			data: data,
-			dataType: 'js',
+			dataType: 'script',
 			method: method,
 			complete: function(xhr){
 				showDialog(xhr.responseText)
@@ -57,9 +57,9 @@ function addItem() {
 				e.preventDefault();
 				var data = $(this).closest('form').serialize();
 				$.ajax({
-					url: 'management/menu_items',
+					url: 'management/menu_items/',
 					data: data,
-					dataType: 'js',
+					dataType: 'script',
 					method: 'post',
 					complete: function(xhr) {
 						showDialog(xhr.responseText)
@@ -77,7 +77,7 @@ function setSidebar() {
 		url: '/management',
 		complete: function(xhr) {
 			$("#side_bar").html($($.parseHTML(xhr.responseText)).find('#side_bar').html())
-			refresh(global_id)
+
 			$("#add_menu_item").show();
 			
 			$("#add_menu_item").on("click", function() {

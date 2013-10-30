@@ -10,7 +10,7 @@ function rebind() {
             url: 'kitchenstaff/itemcomplete',
             data: data,
             method: 'post',
-            dataType: 'js',
+            dataType: 'script',
             complete: function (xhr) {
                 showDialog(xhr.responseText)
             }

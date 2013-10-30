@@ -80,7 +80,7 @@ function viewOrders(data) {
                     url: 'waitstaff/deleteorder',
                     method: 'post',
                     data: data2,
-                    dataType: 'js',
+                    dataType: 'script',
                     complete: function (xhr) {
                         showDialog(xhr.responseText)
                         viewOrders(data)

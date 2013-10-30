@@ -10,7 +10,7 @@ function viewOrders(data) {
     $.ajax({
         url: 'waitstaff/vieworders',
         data: data,
-        dataType: 'js',
+        dataType: 'script',
         method: 'post',
         complete: function (xhr) {
             var table = $($.parseHTML(xhr.responseText)).find('#orders').html()
