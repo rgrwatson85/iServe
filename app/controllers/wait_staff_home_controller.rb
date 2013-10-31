@@ -94,57 +94,66 @@ class WaitStaffHomeController < ApplicationController
       render :text => 'Order successfully removed.'
     end
   end
-
+  
   def editorder
-
     @order = CustomerOrder.find(params[:id])
 
-    if (params[:update] && params[:update] == 'true')
-      #check that there are items in the order /
-      #error if not - tell user to delete the order entirely from the view order view
-      order = params[:order]
-      if !order
-        render :text => 'You cant have an order with no items. Try deleting the entire order...'
-      else
-        @order.is_order_ready = true
-        order.each do |key, value|
-          item = value['menu_item']
-          if @order.is_order_ready
-            @order.is_order_ready = value['order_item_id'] ? true : false
-            @order.save!
-          end
-
-          #catches new items added to order
-          order_item_id         = value['order_item_id'] || CustomerOrderItem.create(:customer_order_id => @order.id).id
-          note                  = value['menu_item_note']
-          marked_for_deletion   = value['delete'] == 'true' ? true : false
-
-          order_item = CustomerOrderItem.find(order_item_id)
-
-          #if not marked for deletion
-          if !marked_for_deletion
-            #if the item name or the note for the item has changed, mark the item as not complete
-            if order_item.menu_item_id != MenuItem.find_by_item_name(item).id || order_item.waitstaff_note != note
-              order_item.is_menu_item_ready = false
-              @order.is_order_ready = false
+    if @order.is_order_ready && !is_admin?
+      response.headers["need_admin"] = 'true'
+      render :text => 'The order has already been prepared. 
+                       This action must be performed by a manager.'
+    else
+      response.headers["need_admin"] = 'false'
+      if (params[:update] && params[:update] == 'true')
+        #check that there are items in the order /
+        #error if not - tell user to delete the order entirely from the view order view
+        order = params[:items]
+        if params[:items].length == 1 && params[:items]['0']['delete'] == 'true'
+          render :text => 'You cant have an order with no items. Try deleting the entire order...'
+        else
+          @order.is_order_ready = true
+          order.each do |key, value|
+            item = value['menu_item']
+            if @order.is_order_ready
+              @order.is_order_ready = value['order_item_id'] ? true : false
               @order.save!
             end
 
-            order_item.menu_item_id = MenuItem.find_by_item_name(item).id
-            order_item.waitstaff_note = note
-            order_item.save!
-          else
-            order_item.destroy!
-          end
+            #catches new items added to order
+            order_item_id         = value['order_item_id'] || 
+                                    CustomerOrderItem.create(
+                                      :customer_order_id => @order.id,
+                                      :menu_item_id => MenuItem.find_by_item_name(item).id,
+                                      :is_menu_item_ready => false
+                                    ).id
+            note                  = value['menu_item_note']
+            marked_for_deletion   = value['delete'] == 'true' ? true : false
 
+            order_item = CustomerOrderItem.find(order_item_id)
+
+            #if not marked for deletion
+            if !marked_for_deletion
+              #if the item name or the note for the item has changed, mark the item as not complete
+              if order_item.menu_item_id != MenuItem.find_by_item_name(item).id || order_item.waitstaff_note != note
+                order_item.is_menu_item_ready = false
+                @order.is_order_ready = false
+                @order.save!
+              end
+
+              order_item.menu_item_id = MenuItem.find_by_item_name(item).id
+              order_item.waitstaff_note = note
+              order_item.save!
+            else
+              order_item.destroy!
+            end
+
+          end
+          render :text => 'Order successfully updated.'
         end
-        render :text => 'Order successfully updated.'
       end
     end
-
     #set to return user to the correct table
     session[:table_id] = @order.table_id
-
   end
 
   private

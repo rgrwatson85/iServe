@@ -63,7 +63,7 @@ function addItem() {
 					method: 'post',
 					complete: function(xhr) {
 						showDialog(xhr.responseText)
-						if (xhr.getResponseHeader('content-type').indexOf('text/html') >= 0)
+						if (xhr.getResponseHeader('toggle_refresh') == 'true')
 							refresh()
 					}
 				});

@@ -122,7 +122,9 @@ function viewOrders(data) {
                         $('#table_info').html(update_form)
                         $('#sb').html(side_bar)
                     },
-                    complete: function () {
+                    complete: function (xhr) {
+						if (xhr.getResponseHeader('need_admin') == 'true')
+							showDialog(xhr.responseText)
                         //fade out the row and then remove from the table when remove clicked
                         $('.item_remove').unbind('click')
                         $('.item_remove').on('click', function () {
@@ -171,7 +173,7 @@ function viewOrders(data) {
                                 }
 
                             });
-                            data = {'order': data, 'update': true, 'id': data2.id}
+                            data = {'items': data, 'update': true, 'id': data2.id}
                             $.ajax({
                                 url: 'waitstaff/editorder',
                                 data: data,

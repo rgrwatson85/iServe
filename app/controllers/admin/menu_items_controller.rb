@@ -26,12 +26,14 @@ module Admin
     # POST /menu_items.json
     def create
       @menu_item = MenuItem.new(menu_item_params)
-
       respond_to do |format|
         if @menu_item.save
           format.html { redirect_to @menu_item, notice: 'Menu item was successfully created.' }
           format.json { render action: 'show', status: :created, location: @menu_item }
-          format.js   { render :text => 'Menu item was successfully created.', content_type: 'text/html' }
+          format.js   { 
+            response.headers['toggle_refresh'] = 'true'
+            render :text => 'Menu item was successfully created.'
+          }
         else
           format.html { render action: 'new' }
           format.json { render json: @menu_item.errors, status: :unprocessable_entity }
@@ -40,6 +42,7 @@ module Admin
             @menu_item.errors.full_messages.each do |message|
               msg = msg + message + '<br />'
             end
+            response.headers['toggle_refresh'] = 'false'
             render :text => msg.upcase
             }
         end
