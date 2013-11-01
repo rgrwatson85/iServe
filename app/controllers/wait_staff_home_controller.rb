@@ -86,7 +86,8 @@ class WaitStaffHomeController < ApplicationController
         order.destroy!
         render :text => 'Order successfully removed.'
       else
-        render :text => 'The order has already been prepared. This action must be performed by a manager.'
+        render :text => 'The order has already been prepared. 
+                         This action must be performed by a manager.'
       end
     #order is not ready yet. waitstaff can remove order
     else
@@ -109,7 +110,8 @@ class WaitStaffHomeController < ApplicationController
         #error if not - tell user to delete the order entirely from the view order view
         order = params[:items]
         if params[:items].length == 1 && params[:items]['0']['delete'] == 'true'
-          render :text => 'You cant have an order with no items. Try deleting the entire order...'
+          render :text => 'You cant have an order with no items. 
+                           Try deleting the entire order...'
         else
           @order.is_order_ready = true
           order.each do |key, value|
