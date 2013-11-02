@@ -62,6 +62,7 @@ class WaitStaffHomeController < ApplicationController
     order_id = order.id
 
     items.each do |key, value|
+
       item = value['menu_item']
       note = value['menu_item_note']
 
