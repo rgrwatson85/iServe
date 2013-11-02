@@ -54,28 +54,33 @@ class WaitStaffHomeController < ApplicationController
 
     items = params[:items]
 
-    order = CustomerOrder.new()
-    order.table_id = session[:table_id]
-    order.is_order_ready = false
-    order.is_order_paid_for = false
-    order.save
-    order_id = order.id
+    if !items.nil?
+      order = CustomerOrder.new()
+      order.table_id = session[:table_id]
+      order.is_order_ready = false
+      order.is_order_paid_for = false
+      order.save
+      order_id = order.id
 
-    items.each do |key, value|
+      items.each do |key, value|
 
-      item = value['menu_item']
-      note = value['menu_item_note']
+        item = value['menu_item']
+        note = value['menu_item_note']
 
-      order_item = CustomerOrderItem.new()
-      order_item.customer_order_id = order_id
-      order_item.menu_item_id = MenuItem.find_by_item_name(item).id
-      order_item.is_menu_item_ready = false
-      order_item.waitstaff_note = note
-      order_item.save
+        order_item = CustomerOrderItem.new()
+        order_item.customer_order_id = order_id
+        order_item.menu_item_id = MenuItem.find_by_item_name(item).id
+        order_item.is_menu_item_ready = false
+        order_item.waitstaff_note = note
+        order_item.save
 
+      end
+      response.header['valid_order'] = 'true'
+      render :text => 'Order Submitted'
+    else
+      response.header['valid_order'] = 'false'
+      render :text => 'Order Must Contain At Least One Item'
     end
-
-    render :text => 'Order Submitted'
 
   end
 
@@ -101,11 +106,11 @@ class WaitStaffHomeController < ApplicationController
     @order = CustomerOrder.find(params[:id])
 
     if @order.is_order_ready && !is_admin?
-      response.headers["need_admin"] = 'true'
+      response.headers['need_admin'] = 'true'
       render :text => 'The order has already been prepared. 
                        This action must be performed by a manager.'
     else
-      response.headers["need_admin"] = 'false'
+      response.headers['need_admin'] = 'false'
       if (params[:update] && params[:update] == 'true')
         #check that there are items in the order /
         #error if not - tell user to delete the order entirely from the view order view

@@ -244,7 +244,8 @@ function newOrder(data) {
                     method: 'post',
                     complete: function (xhr) {
                         showDialog(xhr.responseText);
-                        home();
+                        if (xhr.getResponseHeader('valid_order') == 'true')
+                            home();
                     }
                 });
 
