@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
+  before_filter :is_authorized
 
   # GET /users
   # GET /users.json
@@ -62,13 +63,20 @@ class UsersController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_user
-      @user = User.find(params[:id])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_user
+    @user = User.find(params[:id])
+  end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def user_params
-      params.require(:user).permit(:username, :email, :first_name, :last_name, :user_type_id, :password, :password_confirmation)
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def user_params
+    params.require(:user).permit(:username, :email, :first_name, :last_name, :user_type_id, :password, :password_confirmation)
+  end
+
+  def is_authorized
+    if ![1].include?(current_user.user_type_id)
+      flash[:error] = 'Not authorized to view this resource.'
+      redirect_to :root
     end
+  end
 end
