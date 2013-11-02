@@ -34,11 +34,13 @@ IServe::Application.routes.draw do
                    
     resources :customer_orders, :controller => 'admin/customer_orders'    
                    
-    resources :employee_tables, :controller => 'admin/employee_tables'    
-                   
     resources :tables, :controller => 'admin/tables'             
                    
-    resources :users_types, :controller => 'admin/users_types'
+    resources :user_types, :controller => 'admin/user_types'
+    
+    resources :users, :controller => 'users'
+    
+    resources :user_tables, :controller => 'admin/user_tables'    
   end
   
          
