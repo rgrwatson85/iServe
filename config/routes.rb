@@ -1,7 +1,5 @@
 IServe::Application.routes.draw do
 
-  devise_for :users
-
   get  'kitchenstaff',              to: 'kitchen_staff_home#index'
   post 'kitchenstaff/itemcomplete', to: 'kitchen_staff_home#itemcomplete'
   post 'kitchenstaff/getnote',      to: 'kitchen_staff_home#getnote'
@@ -40,10 +38,10 @@ IServe::Application.routes.draw do
     
     resources :users, :controller => 'users'
     
-    resources :user_tables, :controller => 'admin/user_tables'    
+    resources :user_tables, :controller => 'admin/user_tables'
   end
-  
-         
+
+  devise_for :users
 
   root 'home#index'
 
