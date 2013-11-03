@@ -27,7 +27,7 @@
             <tr id="<%= order.id %>">
               <td><%= i %></td>
               <td colspan="3">
-                <table style="width: 100%">
+                <table class="table">
                   <%
                      order.customer_order_items.each do |item|
                        item_name = MenuItem.find(item.menu_item_id).item_name
